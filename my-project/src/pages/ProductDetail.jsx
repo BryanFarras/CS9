@@ -82,37 +82,36 @@ function ProductDetail({ onPlay }) {
             </p>
           </div>
 
-          <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex flex-col md:flex-row gap-4">
             <button
-             onClick={() => {
-                const validTracks = album.audios?.filter(Boolean); // buang undefined/null/empty
-                const firstTrack = validTracks?.[0];
-              
+              onClick={() => {
+                const firstTrack = album.audios?.[0] || album.audio;
+            
                 if (firstTrack) {
-                  const audioTitle = typeof firstTrack === 'object' ? firstTrack.title || 'Track 1' : 'Track 1';
-                  const audioFile = typeof firstTrack === 'object' ? firstTrack.file : firstTrack;
-              
-                  if (audioFile) {
-                    const song = {
-                      title: `${album.title} — ${audioTitle}`,
-                      audio: audioFile,
-                      image: album.image,
-                      releaseDate: album.releaseDate,
-                    };
-                    onPlay(song);
-                  } else {
-                    alert('Audio file not found.');
-                  }
+                  const song = {
+                    title: `${album.title} — ${
+                      typeof firstTrack === 'object'
+                        ? firstTrack.title
+                        : 'Track 1'
+                    }`,
+                    audio: typeof firstTrack === 'object' ? firstTrack.file : firstTrack,
+                    image: album.image,
+                    releaseDate: album.releaseDate,
+                  };
+                  onPlay(song);
                 } else {
-                  alert('No valid audio track found.');
+                  alert("No preview available for this album.");
                 }
               }}
-              
-              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl"
+              disabled={!album.audio && !album.audios?.length}
+              className={`px-4 py-2 rounded-xl ${
+                album.audio || album.audios?.length
+                  ? 'bg-green-600 hover:bg-green-700 text-white'
+                  : 'bg-gray-300 text-gray-600 cursor-not-allowed'
+              }`}
             >
               Play Preview
             </button>
-
             <button
               onClick={handleAddToWishlist}
               className="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-xl"
