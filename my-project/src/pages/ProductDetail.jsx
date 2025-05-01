@@ -84,7 +84,30 @@ function ProductDetail({ onPlay }) {
 
           <div className="flex flex-col md:flex-row gap-4">
             <button
-              onClick={() => onPlay(album)}
+             onClick={() => {
+                const validTracks = album.audios?.filter(Boolean); // buang undefined/null/empty
+                const firstTrack = validTracks?.[0];
+              
+                if (firstTrack) {
+                  const audioTitle = typeof firstTrack === 'object' ? firstTrack.title || 'Track 1' : 'Track 1';
+                  const audioFile = typeof firstTrack === 'object' ? firstTrack.file : firstTrack;
+              
+                  if (audioFile) {
+                    const song = {
+                      title: `${album.title} — ${audioTitle}`,
+                      audio: audioFile,
+                      image: album.image,
+                      releaseDate: album.releaseDate,
+                    };
+                    onPlay(song);
+                  } else {
+                    alert('Audio file not found.');
+                  }
+                } else {
+                  alert('No valid audio track found.');
+                }
+              }}
+              
               className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl"
             >
               Play Preview
@@ -108,29 +131,40 @@ function ProductDetail({ onPlay }) {
       </div>
 
       {album.audios?.length > 0 && (
-        <div className="mt-10 mb-8">
-          <h3 className="text-xl font-semibold mb-4 text-color_green5">Tracklist:</h3>
-          <ul className="space-y-4">
-            {album.audios.map((track, idx) => (
-              <li key={idx} className="flex items-center gap-4">
-                <span className="w-6 text-gray-600">{idx + 1}.</span>
-                {typeof track === 'object' ? (
-                  <>
-                    <span className="text-sm text-black w-56">{track.title}</span>
-                    <audio controls className="flex-1">
-                      <source src={track.file} type="audio/mp3" />
-                    </audio>
-                  </>
-                ) : (
-                  <audio controls className="w-full">
-                    <source src={track} type="audio/mp3" />
-                  </audio>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+          <div className="mt-10 mb-8">
+            <h3 className="text-xl font-semibold mb-4 text-color_green5 text-center">Tracklist:</h3>
+            
+            <div className="flex justify-center">
+              <ul className="space-y-4 w-full max-w-md">
+                {album.audios.map((track, idx) => {
+                  const isObj = typeof track === 'object';
+                  const audioTitle = isObj ? track.title : `Track ${idx + 1}`;
+                  const audioFile = isObj ? track.file : track;
+                
+                  const song = {
+                    title: `${album.title} — ${audioTitle}`,
+                    audio: audioFile,
+                    image: album.image,
+                    releaseDate: album.releaseDate,
+                  };
+                
+                  return (
+                    <li key={idx} className="flex items-center gap-4 justify-center">
+                      <span className="w-6 text-gray-600 text-right">{idx + 1}.</span>
+                      <span className="text-sm text-black w-56 truncate">{audioTitle}</span>
+                      <button
+                        onClick={() => onPlay(song)}
+                        className="text-white bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-sm"
+                      >
+                        Play
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
+        )}
     </div>
   );
 }
