@@ -3,12 +3,12 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import './App.css';
 import { Helmet } from 'react-helmet';
 
-import Navbar from './components/Navbar.jsx';
-import AudioPlayer from './components/AudioPlayer.jsx'; // ✅ Komponen terpisah
-import AlbumPage from './pages/AlbumPage.jsx';
-import LoginPage from './pages/LoginPage.jsx';
-import HomePage from './pages/HomePage.jsx';
-import ProductDetail from './pages/ProductDetail.jsx';
+import Navbar from '../src/components/Navbar.jsx';
+import AudioPlayer from '../src/components/AudioPlayer.jsx'; // ✅ Komponen terpisah
+import AlbumPage from '../src/pages/AlbumPage.jsx';
+import LoginPage from '../src/pages/LoginPage.jsx';
+import HomePage from '../src/pages/HomePage.jsx';
+import ProductDetail from '../src/pages/ProductDetail.jsx';
 
 function App() {
   const [showNavbar, setShowNavbar] = useState(false);
