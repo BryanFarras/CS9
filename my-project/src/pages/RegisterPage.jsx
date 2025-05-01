@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function RegisterPage() {
   const [email, setEmail] = useState('');
@@ -9,7 +10,7 @@ function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
@@ -36,15 +37,25 @@ function RegisterPage() {
       return;
     }
 
-    // Simulate registration delay
-    setTimeout(() => {
-      // In a real application, you would connect to a registration API here
-      // For now, we'll just simulate successful registration
-      setIsLoading(false);
+    try {
+      // Replace with your backend URL and the API endpoint for registration
+      const response = await axios.post('http://localhost:5173/register', {
+        email,
+        password,
+      });
 
-      // Navigate to the login page after successful registration
-      navigate('/login');
-    }, 1000);
+      if (response.status === 201) {
+        // Successful registration, navigate to login page
+        navigate('/login');
+      } else {
+        setError('Registration failed. Please try again.');
+      }
+    } catch (err) {
+      // Handle errors (e.g., server error, validation error)
+      setError('An error occurred. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

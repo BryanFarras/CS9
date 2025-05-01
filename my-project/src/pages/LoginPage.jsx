@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function LoginPage({ onLogin }) {
   const [email, setEmail] = useState('');
@@ -8,19 +9,17 @@ function LoginPage({ onLogin }) {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
-    
-    // Basic validation
+
     if (!email || !password) {
       setError('Please fill in all fields');
       setIsLoading(false);
       return;
     }
-    
-    // Simple email validation
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError('Please enter a valid email address');
@@ -28,21 +27,28 @@ function LoginPage({ onLogin }) {
       return;
     }
 
-    // Simulate authentication delay
-    setTimeout(() => {
-      // In a real application, you would connect to an authentication API here
-      // For now, we'll just simulate successful authentication
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API}user/login`,
+        null,
+        { params: { email, password } }
+      );
+
+      console.log("LOGIN RESPONSE:", response.data);
+
+      if (response.data.success) {
+        onLogin({ email, token: response.data.token }); // atau sesuaikan dengan respons backend
+        navigate('/home');
+      } else {
+        setError(response.data.message || 'Login failed');
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || 'Login failed');
+    } finally {
       setIsLoading(false);
-      
-      // Call the onLogin function passed from App.jsx
-      onLogin({ email });
-      
-      // Navigate to the homepage after successful login
-      navigate('/home');
-    }, 1000);
+    }
   };
 
-  // Navigate to Register page
   const handleNavigateToRegister = () => {
     navigate('/register');
   };
@@ -51,22 +57,20 @@ function LoginPage({ onLogin }) {
     <div className="flex flex-col min-h-screen bg-gradient-to-b">
       <div className="flex-grow flex flex-col items-center justify-center p-6">
         <div className="w-full max-w-md">
-          {/* Logo and Heading */}
           <div className="text-center mb-10">
             <h1 className="text-5xl mb-3 font-bold text-color_green5">Artificial Nature</h1>
             <h2 className="text-xl text-gray-600 font-national">by Bryan Farras</h2>
           </div>
 
-          {/* Login Form */}
           <div className="bg-white rounded-xl shadow-lg p-8">
             <h3 className="text-2xl font-semibold mb-6 text-center">Sign In</h3>
-            
+
             {error && (
               <div className="bg-red-50 text-red-600 p-3 rounded-lg mb-4 text-sm">
                 {error}
               </div>
             )}
-            
+
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
@@ -81,7 +85,7 @@ function LoginPage({ onLogin }) {
                   placeholder="your@email.com"
                 />
               </div>
-              
+
               <div className="mb-6">
                 <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
                   Password
@@ -95,7 +99,7 @@ function LoginPage({ onLogin }) {
                   placeholder="••••••••"
                 />
               </div>
-              
+
               <button
                 type="submit"
                 disabled={isLoading}
@@ -105,13 +109,13 @@ function LoginPage({ onLogin }) {
                 {isLoading ? 'Signing in...' : 'Sign In'}
               </button>
             </form>
-            
+
             <div className="mt-6 text-center">
               <a href="#" className="text-sm text-color_green5 hover:underline">
                 Forgot password?
               </a>
             </div>
-            
+
             <div className="mt-8 pt-6 border-t border-gray-200 text-center">
               <p className="text-sm text-gray-600">
                 Don't have an account?{' '}
@@ -127,7 +131,7 @@ function LoginPage({ onLogin }) {
           </div>
         </div>
       </div>
-      
+
       <footer className="w-full py-4 text-center text-sm text-gray-600">
         &copy; {new Date().getFullYear()} Bryan Farras — All Rights Reserved.
       </footer>
