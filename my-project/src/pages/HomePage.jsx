@@ -22,14 +22,14 @@ function HomePage({ user }) {
           to="/albums" 
           className="inline-block bg-color_green5 text-white py-3 px-8 rounded-lg hover:bg-opacity-90 transition duration-300"
         >
-          Browse Vinyl
+          Store
         </Link>
       </section>
 
 
       {/* Featured Content */}
       <section className="mb-20">
-        <h2 className="text-2xl font-bold mb-6 border-b pb-2">Featured Albums</h2>
+        <h2 className="text-color_green5 text-2xl font-bold mb-6 border-b pb-2">Featured Albums</h2>
         <div className="flex flex-wrap justify-center items-center">
           <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
             <div className="h-48 bg-gray-200 relative">
@@ -45,8 +45,8 @@ function HomePage({ user }) {
               <h3 className="text-xl font-semibold mb-2 text-color_green5">{songs[2].title}</h3>
               <p className="text-gray-500 mb-4">{songs[2].releaseDate}</p>
               <p className="text-gray-700 mb-4">{songs[2].description}</p>
-              <Link 
-                to="/albums" 
+              <Link
+                to={`/albums/${encodeURIComponent(songs[2].title)}`}
                 className="text-color_green5 font-medium hover:underline"
               >
                 Listen Now
