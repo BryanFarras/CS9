@@ -4,9 +4,10 @@ import './App.css';
 import { Helmet } from 'react-helmet';
 
 import Navbar from '../src/components/NavBar.jsx';
-import AudioPlayer from '../src/components/AudioPlayer.jsx'; // ✅ Komponen terpisah
+import AudioPlayer from '../src/components/AudioPlayer.jsx';
 import AlbumPage from '../src/pages/AlbumPage.jsx';
 import LoginPage from '../src/pages/LoginPage.jsx';
+import RegisterPage from '../src/pages/RegisterPage.jsx'; // Import RegisterPage
 import HomePage from '../src/pages/HomePage.jsx';
 import ProductDetail from '../src/pages/ProductDetail.jsx';
 
@@ -84,11 +85,16 @@ function App() {
           />
 
           <Route
+            path="/register"
+            element={<RegisterPage />} // New route for RegisterPage
+          />
+
+          <Route
             path="/home"
             element={
               <ProtectedRoute>
                 <div className="flex flex-col min-h-screen font-encode">
-                  <HomePage user={user} />
+                  <HomePage user={user} onLogout={handleLogout} />
                 </div>
               </ProtectedRoute>
             }
@@ -117,9 +123,7 @@ function App() {
           />
         </Routes>
 
-        {/* ✅ AudioPlayer tidak akan unmount saat pindah halaman */}
         <AudioPlayer currentSong={currentSong} onClose={() => setCurrentSong(null)} />
-
 
         <footer className="w-screen py-4 bg-black text-white relative left-1/2 right-1/2 -translate-x-1/2 bottom-0">
           <p className="text-sm text-center">

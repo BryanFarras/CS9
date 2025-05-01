@@ -66,16 +66,15 @@ exports.deleteUserID = async (id) => {
     }
 };
 
-exports.getUserbyEmail = async (email) => {
+exports.getUserByEmail = async (email) => {
     try {
         const res = await db.query("SELECT * FROM users WHERE email = $1", [email]);
-        return res.rows[0]; // Jika ditemukan, return user, jika tidak return null
+        return res.rows[0]; // Kembalikan pengguna berdasarkan email
     } catch (error) {
         console.error("Database query failed", error);
-        throw error; // Error ditangani di controller
+        throw error;
     }
 };
-
 
 exports.topUpBalance = async (id, amount) => {
     try {

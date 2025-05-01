@@ -2,9 +2,8 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import songs from '../components/Album.jsx'; 
 
-function HomePage({ user }) {
+function HomePage({ user, onLogout }) {
   useEffect(() => {
-    // Scroll to top when component mounts
     window.scrollTo(0, 0);
   }, []);
 
@@ -25,7 +24,6 @@ function HomePage({ user }) {
           Store
         </Link>
       </section>
-
 
       {/* Featured Content */}
       <section className="mb-20">
@@ -54,6 +52,16 @@ function HomePage({ user }) {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* Sign Out Button */}
+      <section className="mt-16 text-center mb-8">
+        <button
+          onClick={onLogout}
+          className="px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300"
+        >
+          Sign Out
+        </button>
       </section>
     </div>
   );
