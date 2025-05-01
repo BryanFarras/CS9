@@ -4,7 +4,7 @@ import './App.css';
 import { Helmet } from 'react-helmet';
 
 import Navbar from '../src/components/NavBar.jsx';
-import AudioPlayer from '../src/components/AudioPlayer.jsx';
+import AudioPlayer from '../src/components/AudioPlayer.jsx'; // ✅ Komponen terpisah
 import AlbumPage from '../src/pages/AlbumPage.jsx';
 import LoginPage from '../src/pages/LoginPage.jsx';
 import HomePage from '../src/pages/HomePage.jsx';
@@ -106,7 +106,7 @@ function App() {
           />
 
           <Route
-            path="/albums/:title"
+            path="/albums/:id"
             element={
               <ProtectedRoute>
                 <div className="flex flex-col min-h-screen font-encode">
@@ -117,8 +117,9 @@ function App() {
           />
         </Routes>
 
-        {/* Audio player akan selalu aktif di bawah */}
+        {/* ✅ AudioPlayer tidak akan unmount saat pindah halaman */}
         <AudioPlayer currentSong={currentSong} onClose={() => setCurrentSong(null)} />
+
 
         <footer className="w-screen py-4 bg-black text-white relative left-1/2 right-1/2 -translate-x-1/2 bottom-0">
           <p className="text-sm text-center">

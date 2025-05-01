@@ -18,7 +18,7 @@ function Navbar({ visible, isLoggedIn, user, onLogout }) {
       }`}
     >
       <div className="flex items-center">
-        <Link to="/home" className="text-xl font-semibold">Artificial Nature</Link>
+        <Link to="/home" className="text-xl font-semibold text-color_green2 hover:text-color_green5 transition">Artificial Nature</Link>
       </div>
       
       <div className="flex items-center gap-6">

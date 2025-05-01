@@ -16,7 +16,7 @@ function HomePage({ user }) {
           Welcome back, <span className="text-color_green5">{user?.email.split('@')[0]}</span>
         </h1>
         <p className="text-lg text-gray-700 mb-8">
-          Explore the artificial soundscapes created by Bryan Farras and immerse yourself in nature-inspired compositions.
+          Explore the artificial soundscapes created by Bryan Farras and immerse yourself in nature-inspired digitalizion.
         </p>
         <Link 
           to="/albums" 

@@ -1,6 +1,6 @@
 const db = require('../database/pg.database.js');
 
-exports.createItem = async ({ name, price, store_id, stock, image_url }) => {
+exports.createItem = async ({ name, price, store_id, stock, image_url}) => {
     const result = await db.query(
         'INSERT INTO items (name, price, store_id, image_url, stock) VALUES ($1, $2, $3, $4, $5) RETURNING *',
         [name, price, store_id, image_url, stock]
