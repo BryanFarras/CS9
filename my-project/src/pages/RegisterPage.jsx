@@ -15,7 +15,6 @@ function RegisterPage() {
     setError('');
     setIsLoading(true);
 
-    // Basic validation
     if (!email || !password || !confirmPassword) {
       setError('Please fill in all fields');
       setIsLoading(false);
@@ -39,7 +38,7 @@ function RegisterPage() {
 
     try {
       // Replace with your backend URL and the API endpoint for registration
-      const response = await axios.post('http://localhost:5173/register', {
+      const response = await axios.post('http://localhost:3000/user/register', {
         email,
         password,
       });

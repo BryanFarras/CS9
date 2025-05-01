@@ -34,10 +34,8 @@ function LoginPage({ onLogin }) {
         { params: { email, password } }
       );
 
-      console.log("LOGIN RESPONSE:", response.data);
-
       if (response.data.success) {
-        onLogin({ email, token: response.data.token }); // atau sesuaikan dengan respons backend
+        onLogin({ email, token: response.data.token });
         navigate('/home');
       } else {
         setError(response.data.message || 'Login failed');
@@ -51,6 +49,16 @@ function LoginPage({ onLogin }) {
 
   const handleNavigateToRegister = () => {
     navigate('/register');
+  };
+
+  const handleGuestLogin = () => {
+    const guestUser = {
+      email: 'guest@demo.com',
+      token: 'guest-token',
+    };
+
+    onLogin(guestUser);
+    navigate('/home');
   };
 
   return (
@@ -109,6 +117,15 @@ function LoginPage({ onLogin }) {
                 {isLoading ? 'Signing in...' : 'Sign In'}
               </button>
             </form>
+
+            <div className="mt-4">
+              <button
+                onClick={handleGuestLogin}
+                className="w-full py-3 px-4 border border-color_green5 text-color_green1 rounded-lg font-medium transition duration-300"
+              >
+                Login as Guest
+              </button>
+            </div>
 
             <div className="mt-6 text-center">
               <a href="#" className="text-sm text-color_green5 hover:underline">
