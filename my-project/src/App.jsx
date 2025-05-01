@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import './App.css';
 import { Helmet } from 'react-helmet';
 
-import Navbar from '../src/components/Navbar.jsx';
+import Navbar from '../src/components/NavBar.jsx';
 import AudioPlayer from '../src/components/AudioPlayer.jsx'; // ✅ Komponen terpisah
 import AlbumPage from '../src/pages/AlbumPage.jsx';
 import LoginPage from '../src/pages/LoginPage.jsx';
